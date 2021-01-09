@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="credit_invoices" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="shopName" class="java.lang.String"/>
+	<parameter name="FromDate" class="java.lang.String"/>
+	<parameter name="ToDate" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT invoice_payment_id, invoice_payment_date, invoice_payment_total,
+invoice_payment_discount_rate, invoice_payment_discount_value,
+invoice_payment_cash, invoice_payment_discounted_total,
+invoice_payment_invoice_no, invoice_payment_customer_id,
+invoice_payment_description, invoice_payment_cheque, customer_name
+FROM invoice_payment left join customer on invoice_payment_customer_id=customer_id
+where (invoice_payment_total>(invoice_payment_cash+invoice_payment_cheque)) and invoice_payment_date between $P{FromDate} and $P{ToDate}]]>
+	</queryString>
+	<field name="invoice_payment_id" class="java.lang.Long"/>
+	<field name="invoice_payment_date" class="java.sql.Date"/>
+	<field name="invoice_payment_total" class="java.math.BigDecimal"/>
+	<field name="invoice_payment_discount_rate" class="java.math.BigDecimal"/>
+	<field name="invoice_payment_discount_value" class="java.math.BigDecimal"/>
+	<field name="invoice_payment_cash" class="java.math.BigDecimal"/>
+	<field name="invoice_payment_discounted_total" class="java.math.BigDecimal"/>
+	<field name="invoice_payment_invoice_no" class="java.lang.Long"/>
+	<field name="invoice_payment_customer_id" class="java.lang.Long"/>
+	<field name="invoice_payment_description" class="java.lang.String"/>
+	<field name="invoice_payment_cheque" class="java.math.BigDecimal"/>
+	<field name="customer_name" class="java.lang.String"/>
+	<variable name="DueTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{invoice_payment_discounted_total}-($F{invoice_payment_cash}+$F{invoice_payment_cheque})]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<textField>
+				<reportElement x="6" y="24" width="321" height="20"/>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{shopName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="0" width="321" height="24"/>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Credit Invoices]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement x="7" y="0" width="89" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Invoice No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="96" y="0" width="75" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inv. Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="171" y="0" width="177" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="348" y="0" width="99" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inv. Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="447" y="0" width="99" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Due Balance]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="1" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="7" y="0" width="89" height="13"/>
+				<box leftPadding="5">
+					<rightPen lineWidth="0.25" lineColor="#999999"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invoice_payment_invoice_no}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="96" y="0" width="75" height="13"/>
+				<box leftPadding="5">
+					<rightPen lineWidth="0.25" lineColor="#999999"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invoice_payment_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="171" y="0" width="177" height="13"/>
+				<box leftPadding="5">
+					<rightPen lineWidth="0.25" lineColor="#999999"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="348" y="0" width="99" height="13"/>
+				<box leftPadding="5" rightPadding="5">
+					<rightPen lineWidth="0.25" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invoice_payment_total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="447" y="0" width="99" height="13"/>
+				<box leftPadding="5" rightPadding="5">
+					<rightPen lineWidth="0.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invoice_payment_discounted_total}-($F{invoice_payment_cheque}+$F{invoice_payment_cash})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="3" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="327" y="10" width="73" height="16"/>
+				<box>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Due Total]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="413" y="10" width="133" height="16"/>
+				<box leftPadding="5" rightPadding="5">
+					<topPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Ubuntu Medium" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{DueTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

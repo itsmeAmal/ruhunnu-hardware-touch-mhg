@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reorder_items" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="shopName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select current_stock_item_id, item_name, item_code, item_barcode, item_reorder_level, item_id, sum(current_stock_qty) as stock_qty from current_stock left join item on current_stock_item_id=item_id group by  current_stock_item_id having item_reorder_level > sum(current_stock_qty)]]>
+	</queryString>
+	<field name="current_stock_item_id" class="java.lang.Long"/>
+	<field name="item_name" class="java.lang.String"/>
+	<field name="item_code" class="java.lang.String"/>
+	<field name="item_barcode" class="java.lang.String"/>
+	<field name="item_reorder_level" class="java.lang.Long"/>
+	<field name="item_id" class="java.lang.Long"/>
+	<field name="stock_qty" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement x="6" y="4" width="215" height="20"/>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RE-ORDER ITEM LIST]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="6" y="24" width="321" height="20"/>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{shopName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement x="7" y="0" width="67" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Item Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="74" y="0" width="100" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Item Barcode]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="466" y="0" width="85" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="174" y="0" width="292" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Item Name]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="1" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="7" y="0" width="67" height="13"/>
+				<box>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="0" width="100" height="13"/>
+				<box>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_barcode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="0" width="292" height="13"/>
+				<box>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="466" y="0" width="85" height="13"/>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stock_qty}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="3" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

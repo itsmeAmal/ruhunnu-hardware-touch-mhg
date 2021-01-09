@@ -1,0 +1,448 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package cazzendra.pos.ui;
+
+import cazzendra.pos.control.CommonController;
+import cazzendra.pos.control.CustomerControl;
+import cazzendra.pos.core.CommonConstants;
+import cazzendra.pos.core.Loading;
+import cazzendra.pos.core.Validations;
+import java.awt.Color;
+import java.awt.Font;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author Amal
+ */
+public class CustomerManagement extends javax.swing.JFrame {
+
+    public CustomerManagement() {
+        initComponents();
+        loadDataToTable();
+        setDefaults();
+        panel.setBackground(Loading.getColorCode());
+//        HotKeys();
+    }
+
+//    private void HotKeys() {
+//        KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0);
+//        InputMap im = btnItemSearch.getInputMap(JButton.WHEN_IN_FOCUSED_WINDOW);
+//        im.put(ks, "C");
+//        btnItemSearch.getActionMap().put("C", new AbstractAction() {
+//            public void actionPerformed(ActionEvent e) {
+//                itemSearch();
+//            }
+//        });
+//    }
+    private void clearDetail() {
+        txtEmail.setText("");
+        txtAddress.setText("");
+        txtRemark.setText("");
+        txtSearchCustomer.setText("");
+        txtCustomerName.requestFocus();
+        txtContact1.setText("");
+        txtContact2.setText("");
+    }
+
+    private void setDefaults() {
+        txtCustomerName.requestFocus();
+
+        List<JButton> btnList = new ArrayList<>();
+        btnList.add(btnEdit);
+        btnList.add(btnSave);
+        Loading.customJButtonList(0, 0, 102, btnList);
+    }
+
+    private void searchCustomer() {
+        ArrayList<String[]> attributeCOnditionValueList = new ArrayList<>();
+
+        String[] acv1 = {"customer_name", CommonConstants.sql.LIKE, "%" + txtSearchCustomer.getText().trim() + "%"};
+        attributeCOnditionValueList.add(acv1);
+
+        String[] acv5 = {"customer_contact_1", CommonConstants.sql.LIKE, "%" + txtSearchCustomer.getText().trim() + "%"};
+        attributeCOnditionValueList.add(acv5);
+
+        String[] acv2 = {"customer_contact_2", CommonConstants.sql.LIKE, "%" + txtSearchCustomer.getText().trim() + "%"};
+        attributeCOnditionValueList.add(acv2);
+
+        String[] acv3 = {"customer_address", CommonConstants.sql.LIKE, "%" + txtSearchCustomer.getText().trim() + "%"};
+        attributeCOnditionValueList.add(acv3);
+
+        String[] acv4 = {"customer_email", CommonConstants.sql.LIKE, "%" + txtSearchCustomer.getText().trim() + "%"};
+        attributeCOnditionValueList.add(acv4);
+
+        try {
+            ResultSet rset = CustomerControl.getCustomersByMoreAttribute(attributeCOnditionValueList, CommonConstants.sql.OR);
+            String[] columnList = {"customer_id", "customer_name", "customer_address", "customer_contact_1", "customer_contact_2", "customer_email", "customer_detail"};
+            CommonController.loadDataToTable(tblCustomers, rset, columnList);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void addCustomer() {
+        try {
+            if (txtCustomerName.getText().trim().equalsIgnoreCase("") || txtCustomerName.getText().trim() == null) {
+                JOptionPane.showConfirmDialog(this, "Enter customer name", "Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            boolean status = CustomerControl.addCustomer(txtCustomerName.getText().trim(), txtAddress.getText().trim(),
+                    txtContact1.getText().trim(), txtContact2.getText().trim(), txtEmail.getText().trim(),
+                    txtRemark.getText().trim());
+
+            if (status) {
+                JOptionPane.showMessageDialog(this, "Customer added successfully !");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void loadDataToTable() {
+        try {
+            ResultSet rset = CustomerControl.getAllCustomers();
+            String[] columnList = {"customer_id", "customer_name", "customer_address", "customer_contact_1", "customer_contact_2", "customer_email", "customer_detail"};
+            CommonController.loadDataToTable(tblCustomers, rset, columnList);
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        panel = new javax.swing.JPanel();
+        txtSearchCustomer = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        txtRemark = new javax.swing.JTextField();
+        txtAddress = new javax.swing.JTextField();
+        btnSave = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblCustomers = new javax.swing.JTable();
+        btnEdit = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        txtContact1 = new javax.swing.JTextField();
+        txtContact2 = new javax.swing.JTextField();
+        txtCustomerName = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Customer Management");
+        setAlwaysOnTop(true);
+        setMaximumSize(new java.awt.Dimension(1360, 716));
+        setMinimumSize(new java.awt.Dimension(1360, 716));
+        setResizable(false);
+        setSize(new java.awt.Dimension(1360, 716));
+
+        panel.setBackground(new java.awt.Color(0, 102, 102));
+        panel.setMaximumSize(new java.awt.Dimension(1360, 716));
+        panel.setMinimumSize(new java.awt.Dimension(1360, 716));
+        panel.setPreferredSize(new java.awt.Dimension(1360, 716));
+        panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtSearchCustomer.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        txtSearchCustomer.setToolTipText("Customer Name");
+        txtSearchCustomer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchCustomerKeyReleased(evt);
+            }
+        });
+        panel.add(txtSearchCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 16, 266, 40));
+
+        txtEmail.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        txtEmail.setToolTipText("Email");
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
+        panel.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 359, 266, 40));
+
+        txtRemark.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        txtRemark.setToolTipText("Remark");
+        txtRemark.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRemarkActionPerformed(evt);
+            }
+        });
+        panel.add(txtRemark, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 432, 266, 40));
+
+        txtAddress.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        txtAddress.setToolTipText("Customer Address");
+        txtAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtAddressActionPerformed(evt);
+            }
+        });
+        panel.add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 140, 266, 40));
+
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cazzendra/pos/newtheme/icons/save-32.png"))); // NOI18N
+        btnSave.setToolTipText("Save");
+        btnSave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        panel.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(209, 490, 80, 40));
+
+        jLabel1.setFont(new java.awt.Font("Ubuntu Medium", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 102));
+        jLabel1.setText("Contact 1");
+        panel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 186, 266, -1));
+
+        jLabel2.setFont(new java.awt.Font("Ubuntu Medium", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 102));
+        jLabel2.setText("Name");
+        panel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 40, 266, -1));
+
+        jLabel3.setFont(new java.awt.Font("Ubuntu Medium", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 102));
+        jLabel3.setText("Address");
+        panel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 113, 266, -1));
+
+        jLabel4.setFont(new java.awt.Font("Ubuntu Medium", 0, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 102));
+        jLabel4.setText("Remark");
+        panel.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 405, 266, -1));
+
+        tblCustomers.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        tblCustomers.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Cust ID", "Name", "Address", "Contact 1", "Contact 2", "Email", "Remark"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblCustomers.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblCustomers.getTableHeader().setFont(new Font("Ubuntu", Font.BOLD, 18));
+        tblCustomers.getTableHeader().setOpaque(false);
+        tblCustomers.getTableHeader().setBackground(new Color(0, 0, 102));
+        tblCustomers.getTableHeader().setForeground(new Color(255, 255, 255));
+        tblCustomers.setRowHeight(22);
+        tblCustomers.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tblCustomers);
+        if (tblCustomers.getColumnModel().getColumnCount() > 0) {
+            tblCustomers.getColumnModel().getColumn(0).setMinWidth(0);
+            tblCustomers.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tblCustomers.getColumnModel().getColumn(0).setMaxWidth(0);
+            tblCustomers.getColumnModel().getColumn(1).setMinWidth(280);
+            tblCustomers.getColumnModel().getColumn(1).setPreferredWidth(280);
+            tblCustomers.getColumnModel().getColumn(1).setMaxWidth(280);
+            tblCustomers.getColumnModel().getColumn(3).setMinWidth(120);
+            tblCustomers.getColumnModel().getColumn(3).setPreferredWidth(120);
+            tblCustomers.getColumnModel().getColumn(3).setMaxWidth(120);
+            tblCustomers.getColumnModel().getColumn(4).setMinWidth(120);
+            tblCustomers.getColumnModel().getColumn(4).setPreferredWidth(120);
+            tblCustomers.getColumnModel().getColumn(4).setMaxWidth(120);
+            tblCustomers.getColumnModel().getColumn(5).setMinWidth(150);
+            tblCustomers.getColumnModel().getColumn(5).setPreferredWidth(150);
+            tblCustomers.getColumnModel().getColumn(5).setMaxWidth(150);
+            tblCustomers.getColumnModel().getColumn(6).setMinWidth(150);
+            tblCustomers.getColumnModel().getColumn(6).setPreferredWidth(150);
+            tblCustomers.getColumnModel().getColumn(6).setMaxWidth(150);
+        }
+
+        panel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(317, 62, 1023, 601));
+
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cazzendra/pos/newtheme/icons/edit-9-32.png"))); // NOI18N
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        panel.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 16, 40, 40));
+
+        jLabel6.setFont(new java.awt.Font("Ubuntu Medium", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 0, 102));
+        jLabel6.setText("Email");
+        panel.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 332, 266, -1));
+
+        jLabel7.setFont(new java.awt.Font("Ubuntu Medium", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 102));
+        jLabel7.setText("Contact 2");
+        panel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 259, 266, -1));
+
+        txtContact1.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        txtContact1.setToolTipText("Contact 1");
+        txtContact1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtContact1ActionPerformed(evt);
+            }
+        });
+        panel.add(txtContact1, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 213, 266, 40));
+
+        txtContact2.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        txtContact2.setToolTipText("Contact 2");
+        txtContact2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtContact2ActionPerformed(evt);
+            }
+        });
+        panel.add(txtContact2, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 286, 266, 40));
+
+        txtCustomerName.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
+        txtCustomerName.setToolTipText("Customer Name");
+        txtCustomerName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCustomerNameActionPerformed(evt);
+            }
+        });
+        panel.add(txtCustomerName, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 67, 266, 40));
+
+        jLabel5.setFont(new java.awt.Font("Ubuntu Medium", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 102));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Search");
+        panel.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(317, 25, 92, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        int selectedItem = tblCustomers.getSelectedRow();
+        if (selectedItem != -1) {
+            int id = Validations.getIntOrZeroFromString(tblCustomers.getValueAt(selectedItem, 0).toString());
+            new EditCustomer(this, true, id).setVisible(true);
+            loadDataToTable();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select Customer !", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        addCustomer();
+        loadDataToTable();
+        clearDetail();
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void txtSearchCustomerKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchCustomerKeyReleased
+        searchCustomer();
+    }//GEN-LAST:event_txtSearchCustomerKeyReleased
+
+    private void txtCustomerNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomerNameActionPerformed
+        txtAddress.requestFocus();
+    }//GEN-LAST:event_txtCustomerNameActionPerformed
+
+    private void txtAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAddressActionPerformed
+        txtContact1.requestFocus();
+    }//GEN-LAST:event_txtAddressActionPerformed
+
+    private void txtContact1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContact1ActionPerformed
+        txtContact2.requestFocus();
+    }//GEN-LAST:event_txtContact1ActionPerformed
+
+    private void txtContact2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContact2ActionPerformed
+        txtEmail.requestFocus();
+    }//GEN-LAST:event_txtContact2ActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        txtRemark.requestFocus();
+    }//GEN-LAST:event_txtEmailActionPerformed
+
+    private void txtRemarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRemarkActionPerformed
+        btnSave.requestFocus();
+    }//GEN-LAST:event_txtRemarkActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(CustomerManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(CustomerManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(CustomerManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(CustomerManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new CustomerManagement().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panel;
+    private javax.swing.JTable tblCustomers;
+    private javax.swing.JTextField txtAddress;
+    private javax.swing.JTextField txtContact1;
+    private javax.swing.JTextField txtContact2;
+    private javax.swing.JTextField txtCustomerName;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtRemark;
+    private javax.swing.JTextField txtSearchCustomer;
+    // End of variables declaration//GEN-END:variables
+}

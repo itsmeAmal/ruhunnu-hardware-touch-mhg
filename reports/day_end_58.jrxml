@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="day_end_58" language="groovy" pageWidth="170" pageHeight="226" columnWidth="166" leftMargin="2" rightMargin="2" topMargin="14" bottomMargin="14" isFloatColumnFooter="true" isIgnorePagination="true">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="userName" class="java.lang.String"/>
+	<parameter name="printDate" class="java.util.Date"/>
+	<parameter name="printTime" class="java.sql.Time"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="3" y="22" width="49" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Print Date :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="52" y="22" width="112" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{printDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="13" width="49" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cashier     :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="52" y="13" width="112" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{userName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="1" width="166" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Day End Summary]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="52" y="31" width="112" height="9"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{printTime}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="31" width="49" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Print Date :]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<summary>
+		<band height="60" splitType="Stretch">
+			<line>
+				<reportElement x="3" y="1" width="162" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="7" y="5" width="59" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Opening Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="14" width="59" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Invoice Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="23" width="59" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Cash Out]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="32" width="59" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Closing Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="49" width="59" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Difference]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="66" y="5" width="5" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="66" y="14" width="5" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="66" y="23" width="5" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="66" y="32" width="5" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="66" y="49" width="5" height="9"/>
+				<textElement>
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

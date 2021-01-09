@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice_letter" language="groovy" pageWidth="390" pageHeight="595" columnWidth="350" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.7715610000000017"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="25"/>
+	<parameter name="invoiceNo" class="java.lang.String"/>
+	<parameter name="shopName" class="java.lang.String"/>
+	<parameter name="userName" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String"/>
+	<parameter name="cashPay" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[select invoice_detail_id, invoice_detail_invoice_no, invoice_detail_item_id, invoice_detail_item_qty, invoice_detail_unit, invoice_detail_unit_price, invoice_detail_selling_price, invoice_detail_discount_rate, invoice_detail_purchase_price, item_id, item_name, item_code, item_barcode,item_selling_price, item_category, item_sub_category,
+item_purchasing_price from invoice_detail left join item on invoice_detail_item_id=item_id where invoice_detail_invoice_no=$P{invoiceNo}]]>
+	</queryString>
+	<field name="invoice_detail_id" class="java.lang.Long"/>
+	<field name="invoice_detail_invoice_no" class="java.lang.Long"/>
+	<field name="invoice_detail_item_id" class="java.lang.Long"/>
+	<field name="invoice_detail_item_qty" class="java.math.BigDecimal"/>
+	<field name="invoice_detail_unit" class="java.lang.String"/>
+	<field name="invoice_detail_unit_price" class="java.math.BigDecimal"/>
+	<field name="invoice_detail_selling_price" class="java.math.BigDecimal"/>
+	<field name="invoice_detail_discount_rate" class="java.math.BigDecimal"/>
+	<field name="invoice_detail_purchase_price" class="java.math.BigDecimal"/>
+	<field name="item_id" class="java.lang.Long"/>
+	<field name="item_name" class="java.lang.String"/>
+	<field name="item_code" class="java.lang.String"/>
+	<field name="item_barcode" class="java.lang.String"/>
+	<field name="item_selling_price" class="java.math.BigDecimal"/>
+	<field name="item_category" class="java.lang.String"/>
+	<field name="item_sub_category" class="java.lang.String"/>
+	<field name="item_purchasing_price" class="java.math.BigDecimal"/>
+	<variable name="lineTotal" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{invoice_detail_item_qty}*$F{invoice_detail_selling_price}]]></variableExpression>
+	</variable>
+	<variable name="discountedTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{invoice_detail_item_qty} * $F{invoice_detail_selling_price}]]></variableExpression>
+	</variable>
+	<variable name="total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{invoice_detail_unit_price}*$F{invoice_detail_item_qty}]]></variableExpression>
+	</variable>
+	<variable name="discount" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$V{total}-$V{discountedTotal}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="72" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="349" height="21"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INVOICE]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="23" width="349" height="19"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{shopName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="45" width="64" height="12"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Invoice No   :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="57" width="64" height="12"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date            :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="70" y="45" width="100" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{invoiceNo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="70" y="57" width="100" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="197" y="44" width="71" height="12"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[System User  :]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="272" y="44" width="77" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{userName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="1" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement x="6" y="0" width="64" height="13"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Item Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="226" y="0" width="46" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="272" y="0" width="74" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="6" y="13" width="340" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="6" y="-3" width="340" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="156" y="0" width="70" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Selling Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="86" y="0" width="70" height="13"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Retail Price]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="6" y="12" width="50" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="6" y="0" width="266" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="226" y="12" width="46" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invoice_detail_item_qty}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="272" y="12" width="73" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{lineTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="12" width="70" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invoice_detail_selling_price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="86" y="12" width="70" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invoice_detail_unit_price}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="2" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="108" splitType="Stretch">
+			<line>
+				<reportElement x="146" y="1" width="200" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="5" y="89" width="340" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="6" y="91" width="339" height="17"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Software By Cazzendra | www.websitename.com | 0777 101010]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="181" y="4" width="88" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="181" y="16" width="88" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Discounted Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="181" y="28" width="88" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Discount]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="272" y="16" width="73" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{discountedTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="272" y="4" width="73" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="272" y="28" width="73" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{discount}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="146" y="41" width="200" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="272" y="42" width="73" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cashPay}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="181" y="42" width="88" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cash Pay]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="272" y="54" width="73" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cashPay}-$V{discountedTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="181" y="54" width="88" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Balance]]></text>
+			</staticText>
+			<line>
+				<reportElement x="272" y="67" width="74" height="1"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sinhala_reorder_items" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="shopName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select current_stock_item_id, item_name, item_code, item_barcode, item_reorder_level, item_id, sum(current_stock_qty) as stock_qty from current_stock left join item on current_stock_item_id=item_id group by  current_stock_item_id having item_reorder_level > sum(current_stock_qty)]]>
+	</queryString>
+	<field name="current_stock_item_id" class="java.lang.Long"/>
+	<field name="item_name" class="java.lang.String"/>
+	<field name="item_code" class="java.lang.String"/>
+	<field name="item_barcode" class="java.lang.String"/>
+	<field name="item_reorder_level" class="java.lang.Long"/>
+	<field name="item_id" class="java.lang.Long"/>
+	<field name="stock_qty" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement x="6" y="4" width="321" height="27"/>
+				<textElement>
+					<font fontName="Iskoola Pota" size="18" isBold="false" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[නැවත ඇනවුම් කල යුතු අයිතම වාර්තාව]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="6" y="31" width="321" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{shopName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement x="7" y="0" width="84" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement>
+					<font fontName="Iskoola Pota" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[අයිතම කේතය]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="0" width="123" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement>
+					<font fontName="Iskoola Pota" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[බාකෝඩ්]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="466" y="0" width="85" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Iskoola Pota" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ප්‍රමාණය]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="214" y="0" width="252" height="16"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#999999"/>
+				</box>
+				<textElement>
+					<font fontName="Iskoola Pota" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[අයිතම නාමය]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="1" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<textField>
+				<reportElement x="7" y="0" width="67" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{item_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="91" y="0" width="123" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{item_barcode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="214" y="0" width="252" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="466" y="0" width="85" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{stock_qty}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="3" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

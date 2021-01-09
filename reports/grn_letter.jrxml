@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="grn_letter" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.771561000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="invoiceNo" class="java.lang.String"/>
+	<parameter name="shopName" class="java.lang.String"/>
+	<parameter name="date" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT grn_detail_id, grn_detail_grn_id, grn_detail_item_id, grn_detail_item_purchase_price,
+grn_detail_item_selling_price, grn_detail_qty, grn_detail_unit, grn_detail_discount_rate, (grn_detail_item_purchase_price*grn_detail_qty) as line_total,
+item_name FROM grn_detail left join item on grn_detail_item_id=item_id where grn_detail_grn_id=$P{invoiceNo}]]>
+	</queryString>
+	<field name="grn_detail_id" class="java.lang.Long"/>
+	<field name="grn_detail_grn_id" class="java.lang.Long"/>
+	<field name="grn_detail_item_id" class="java.lang.Long"/>
+	<field name="grn_detail_item_purchase_price" class="java.math.BigDecimal"/>
+	<field name="grn_detail_item_selling_price" class="java.math.BigDecimal"/>
+	<field name="grn_detail_qty" class="java.math.BigDecimal"/>
+	<field name="grn_detail_unit" class="java.lang.String"/>
+	<field name="grn_detail_discount_rate" class="java.math.BigDecimal"/>
+	<field name="line_total" class="java.lang.Double"/>
+	<field name="item_name" class="java.lang.String"/>
+	<variable name="Sum" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{line_total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="72" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="349" height="21"/>
+				<textElement textAlignment="Left">
+					<font fontName="Ubuntu Medium" size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GOODS RECEIVED NOTE]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="23" width="184" height="20"/>
+				<textElement textAlignment="Left">
+					<font fontName="Ubuntu Medium" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{shopName}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="45" width="64" height="12"/>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GRN No     :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="57" width="64" height="12"/>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date            :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="69" y="45" width="100" height="12"/>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{invoiceNo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="69" y="57" width="100" height="12"/>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="283" y="45" width="100" height="20"/>
+				<textElement>
+					<font fontName="Ubuntu Medium"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{line_total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="1" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<staticText>
+				<reportElement x="6" y="0" width="197" height="16"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Item Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="291" y="0" width="93" height="16"/>
+				<box rightPadding="5">
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Purchased Qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="203" y="0" width="88" height="16"/>
+				<box rightPadding="5">
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Retail Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="384" y="0" width="95" height="16"/>
+				<box rightPadding="5">
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Purchase Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="479" y="0" width="69" height="16"/>
+				<box rightPadding="5">
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField>
+				<reportElement x="6" y="0" width="197" height="12"/>
+				<box>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Ubuntu" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{item_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="203" y="0" width="88" height="12"/>
+				<box rightPadding="5">
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grn_detail_item_selling_price}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="291" y="0" width="93" height="12"/>
+				<box rightPadding="5">
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grn_detail_qty}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="384" y="0" width="95" height="12"/>
+				<box rightPadding="5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grn_detail_item_purchase_price}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="479" y="0" width="69" height="12"/>
+				<box leftPadding="0" rightPadding="5">
+					<leftPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{line_total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="2" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="1" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="291" y="4" width="107" height="18"/>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu Medium" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Purchase Cost for GRN Rs. ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="398" y="4" width="152" height="18"/>
+				<box rightPadding="5">
+					<topPen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Ubuntu Medium" size="13"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{Sum}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
