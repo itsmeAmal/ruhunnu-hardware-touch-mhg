@@ -23,7 +23,7 @@ public class DatabaseConnection {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 //            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cazzendra_pos_v2", "root", Loading.getDbPassword());
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cazzendra_pos_v2", "root", "1234");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cloud_revel_billing", "root", "1234");
 //            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/id7788168_pos", "id7788168_cazzendra", "910550292v");
             return con;
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {

@@ -47,7 +47,7 @@ public class Login extends javax.swing.JFrame {
                 }
                 User user = UserControl.getUserByUserNameAndPw(uname, pw);
                 Loading.setUser(user);
-                new MainMenu(Language).setVisible(true);
+                new MainMenuTouch(Language).setVisible(true);
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Username or Password is incorrect !", "Error", JOptionPane.ERROR_MESSAGE);
